@@ -1,0 +1,210 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript" src="jquery.media.js"></script>
+<script type="text/javascript">
+function sayHi(el){
+       //alert("当前点击的元素是" + el.tagName);
+	   //alert(el.parentNode);
+	   el.parentNode.parentNode.remove();
+	   alert(el.html());
+	  
+    }
+function changeDiv(obj){
+	alert(obj.parent.html());
+}
+function BrowseFolder() {
+    try {
+        var Message = "Please select the folder path.";  //选择框提示信息
+        var Shell = new ActiveXObject("Shell.Application");
+        var Folder = Shell.BrowseForFolder(0, Message, 0x0040, 0x11); //起始目录为：我的电脑
+        //var Folder = Shell.BrowseForFolder(0,Message,0); //起始目录为：桌面
+        if (Folder != null) {
+            Folder = Folder.items();  // 返回 FolderItems 对象
+            Folder = Folder.item();  // 返回 Folderitem 对象
+            Folder = Folder.Path;   // 返回路径
+            if (Folder.charAt(Folder.length - 1) != "\\") {
+                Folder = Folder + "\\";
+            }
+            return Folder;
+        }
+    } catch (e) {
+        alert(e.message);
+    }
+}
+
+function SaveInfoToFile(folder, fileName) {
+    var filePath = folder + fileName;
+    var fileInfo = "ckwzid='30'wzmc='aaa'wzlb='玩具类'wzgg='aaa'wzly='aaa'";
+    var fso = new ActiveXObject("Scripting.FileSystemObject");
+    var file = fso.CreateTextFile(filePath, true);
+    file.Write(fileInfo);
+    file.Close();
+}
+
+function printme()
+{
+alert("ss");
+//document.body.innerHTML=document.getElementById('div2').innerHTML;
+//alert(document.body.innerHTML);
+//window.print();
+}
+
+function myPrint(obj){
+    var newWindow=window.open("打印窗口","_blank");//打印窗口要换成页面的url
+    var docStr = obj.innerHTML;
+    newWindow.document.write(docStr);
+    newWindow.document.close();
+    newWindow.print();
+    newWindow.close();
+}
+
+function expendAllComment(){
+var moreComment=document.getElementsByName("load-more");
+for(var j=0;j<=moreComment.length;j++){
+    var link2=document.getElementsByName("load-more")[j];
+    if(j!=moreComment.length)link2.click();
+    //if(j==moreComment.length){console.log("loaded2");report();}
+	}
+}
+function kk(){
+var comment=document.getElementsByName("addcomment");
+for(var i=0;i<comment.length;i++){
+    var link1=document.getElementsByName("addcomment")[i];
+	var str =document.getElementsByName("addcomment")[i].text+'';
+	alert(str);
+	if (str.substring(str.length-3,str.length-2)=="条")link1.click();
+    //if(i==comment.length){console.log("loaded1");expendAllComment();}
+}
+}
+function oo(){
+var str =document.getElementsByName("addcomment")[1].text+'';
+alert(str.substring(str.length-3,str.length-2));
+}
+
+function chooseAll(){
+			console.log(document.getElementsByName("books"));
+			var x=document.getElementsByName("books");
+			x[0].checked=true;
+		}
+$(function(){
+$("#itemTable tbody tr ").each(function(){
+			var obj = new Object();
+			var n = new Array("wz_id","ly","wzlb","pm","xhgg","sl","dw","dj","zj","yhz");//要修改成对应的属性
+			$(this).find("td select,td input").not($("#储备排除用")).each(function(i){
+				console.log(i);
+			});
+		});
+});
+</script>
+</head>
+<div align="center" id= "div2">
+<body>
+						<a id="addcomment" class="addcomments tt" name="addcomment" href="javascript:printme()">点我</a>
+						<a href="javascript:printme()" name="addcomment" class=" meta-item toggle-comment">
+							<i class="z-icon-comment"></i>136 条评论</a>
+						<a href="javascript:printme()" name="addcomment" class=" meta-item toggle-comment">
+								<i class="z-icon-comment"></i>添加评论</a>
+						<button  id="btnTest2" type="button" value = "la" onclick="BrowseFolder(this)">lsl</button>
+					</div>
+					<div onclick="changeDiv(this)">111111</div>
+					<div style="margin-left:90px;"><button onclick="myPrint(document.getElementById('div2'))">打印</button></div>
+					<td><input id="全选" value="2" type="checkbox" onclick="javascript:chooseAll()">全选</td>
+					<td><input id="2" value="2" type="checkbox" name="books">楼宇名称</td>
+					<td><input id="3" value="3" type="checkbox" name="books">累积总税收</td>
+					<table width="100%" onclick="doCalTotal();" onkeyup="doCalTotal();" addbutton="新建" itemdetail="master.items" class="list nowrap" id="itemTable" style="clear: both;">
+				
+				<thead>
+					<tr>
+						<th fieldclass="required txtSize " size="12" lookupurl="cchgwzjginfo/cchgwzjginfo!listBringback.action" lookupname="lookup" name="ly" type="lookup">
+							物资来源
+						</th>
+						<th fieldclass="required" size="12" enumurl="wzlb_select.jsp" enumnmae="wzlb" name="wzlb" type="enum">
+							物资类别
+						</th>
+						<th fieldclass="required txtSize " size="12" name="pm" lookupname="lookup" type="lookupField">
+							品 名
+						</th>
+						<th fieldclass=" txtSize" size="12" name="xhgg" type="text">
+							型号/规格
+						</th>
+						<th fieldclass="required number txtSize" size="12" name="sl" type="text">
+							数 量
+						</th>
+						<th fieldclass="required txtSize" size="12" name="dw" lookupname="lookup" type="lookupField">
+							单位
+						</th>
+						<th fieldclass="required number txtSize" size="12" name="dj" lookupname="lookup" type="lookupField">
+							单价（元）
+						</th>
+						<th fieldclass="required number txtSize" size="12" name="zj" type="text">
+							总价（元）
+						</th>
+						<th fieldclass="number txtSize" size="12" name="yhz" type="text">
+							优惠值（元）
+						</th>
+						<th width="60" type="del">
+							操作
+						</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					
+
+				<tr><td>
+				<input type="hidden" name="master.items[0].lookup.id">
+				<input type="hidden" id="储备排除用" name="master.items[0].dwz_lookup.ckwzid">
+				<input type="text" class="required txtSize  textInput" size="12" name="master.items[0].dwz_lookup.ly"><a title="查找带回" index="0" lookupname="lookup" lookupgroup="master.items" href="cchgwzjginfo/cchgwzjginfo!listBringback.action" class="btnLook">查找带回</a></td><td>
+
+<select class="required" id="wzlb" name="wzlb">
+    <option value="">--请选择--</option>
+    <option value="玩具类">玩具类</option>
+    <option value="其它类（海关）">其它类（海关）</option>
+    <option value="冬用品类">冬用品类</option>
+    <option value="生活日用品类">生活日用品类</option>
+    <option value="夏装类">夏装类</option>
+    <option value="秋装类">秋装类</option>
+    <option value="冬装类">冬装类</option>
+    <option value="童装类">童装类</option>
+    <option value="鞋类">鞋类</option>
+    <option value="箱包类">箱包类</option>
+    <option value="医药类">医药类</option>
+    <option value="文具类">文具类</option>
+    <option value="其他类">其他类</option>
+
+
+</select>
+<span style="color:red">*</span></td>
+<td><input type="text" class="required txtSize  textInput" size="12" name="master.items[0].dwz_lookup.pm"></td>
+<td><input type="text" class="txtSize textInput" size="12" name="master.items[0].xhgg"></td>
+<td><input type="text" class="required number txtSize textInput" size="12" name="master.items[0].sl"></td>
+<td><input type="text" class="required txtSize textInput" size="12" name="master.items[0].dwz_lookup.dw"></td>
+<td><input type="text" class="required number txtSize textInput" size="12" name="master.items[0].dwz_lookup.dj"></td>
+<td><input type="text" class="required number txtSize textInput" size="12" name="master.items[0].zj"></td>
+<td><input type="text" class="number txtSize textInput" size="12" name="master.items[0].yhz"></td>
+<td><a class="btnDel " href="javascript:void(0)">删除</a></td></tr><tr><td><input type="hidden" name="master.items[1].lookup.id"><input type="hidden" id="储备排除用" name="master.items[1].dwz_lookup.ckwzid"><input type="text" class="required txtSize  textInput" size="12" name="master.items[1].dwz_lookup.ly"><a title="查找带回" index="1" lookupname="lookup" lookupgroup="master.items" href="cchgwzjginfo/cchgwzjginfo!listBringback.action" class="btnLook">查找带回</a></td><td>
+
+<select class="required" id="wzlb" name="wzlb">
+    <option value="">--请选择--</option>
+    <option value="玩具类">玩具类</option>
+    <option value="其它类（海关）">其它类（海关）</option>
+    <option value="冬用品类">冬用品类</option>
+    <option value="生活日用品类">生活日用品类</option>
+    <option value="夏装类">夏装类</option>
+    <option value="秋装类">秋装类</option>
+    <option value="冬装类">冬装类</option>
+    <option value="童装类">童装类</option>
+    <option value="鞋类">鞋类</option>
+    <option value="箱包类">箱包类</option>
+    <option value="医药类">医药类</option>
+    <option value="文具类">文具类</option>
+    <option value="其他类">其他类</option>
+
+
+</select>
+<span style="color:red">*</span></td><td><input type="text" class="required txtSize  textInput" size="12" name="master.items[1].dwz_lookup.pm"></td><td><input type="text" class="txtSize textInput" size="12" name="master.items[1].xhgg"></td><td><input type="text" class="required number txtSize textInput" size="12" name="master.items[1].sl"></td><td><input type="text" class="required txtSize textInput" size="12" name="master.items[1].dwz_lookup.dw"></td><td><input type="text" class="required number txtSize textInput" size="12" name="master.items[1].dwz_lookup.dj"></td><td><input type="text" class="required number txtSize textInput" size="12" name="master.items[1].zj"></td><td><input type="text" class="number txtSize textInput" size="12" name="master.items[1].yhz"></td><td><a class="btnDel " href="javascript:void(0)">删除</a></td></tr></tbody>
+			</table>
+</body>
+</html>
